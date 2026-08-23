@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atelier Lab — a cinematic Obsidian vault</title>
+<meta name="description" content="A dashboard-first Obsidian vault with glass bento dashboards, an Open Library reading tracker, a career pipeline, and a three.js lo-fi workspace. MIT, works offline.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b0d10'/%3E%3Ctext x='16' y='22' font-family='serif' font-size='17' fill='%23d39467' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap');
+:root {
+  --void:#0b0d10; --ink:#f1eee7; --muted:#94969a; --faint:#5f6369;
+  --line:rgba(241,238,231,.12); --copper:#d39467; --blue:#76bfd7; --violet:#ae94d9;
+  --panel:rgba(24,27,31,.82); --mono:'DM Mono',monospace; --sans:'Manrope',sans-serif; --serif:'Playfair Display',serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(900px 500px at 92% -10%,rgba(76,143,168,.13),transparent 70%),radial-gradient(800px 500px at -10% 100%,rgba(181,105,59,.08),transparent 70%),var(--void);color:var(--ink);font-family:var(--sans);letter-spacing:-.012em;line-height:1.6}
+a{color:var(--blue);text-decoration:none;transition:color .2s}
+a:hover{color:var(--copper)}
+.wrap{max-width:1100px;margin:0 auto;padding:0 28px}
+.eyebrow{color:var(--copper);font:500 11px/1.4 var(--mono);letter-spacing:.16em;text-transform:uppercase}
+h1{font:500 clamp(44px,7vw,84px)/.98 var(--serif);letter-spacing:-.045em}
+h2{font:500 clamp(30px,4vw,44px)/1.1 var(--serif);letter-spacing:-.03em;margin-bottom:14px}
+p.sub{color:var(--muted);font-size:16px;max-width:640px}
+.glass{background:linear-gradient(145deg,rgba(27,30,36,.94),rgba(19,21,25,.91));border:1px solid rgba(255,255,255,.085);border-radius:24px;box-shadow:0 24px 60px -30px rgba(0,0,0,.9)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;font-weight:700;font-size:14px;transition:.2s;border:1px solid var(--line);color:var(--ink)}
+.btn.primary{background:var(--copper);border-color:var(--copper);color:#17120f}
+.btn.primary:hover{filter:brightness(1.1);transform:translateY(-2px);color:#17120f}
+.btn:hover{border-color:var(--copper);color:var(--copper)}
+nav{display:flex;justify-content:space-between;align-items:center;padding:22px 0}
+nav .wordmark{font:600 15px var(--serif);color:var(--ink);letter-spacing:.02em}
+nav .links{display:flex;gap:22px;font-size:13px}
+header{padding:64px 0 30px}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center;padding:30px 0 70px}
+.hero .frame{border-radius:22px;overflow:hidden;border:1px solid rgba(255,255,255,.1);box-shadow:0 40px 100px -30px rgba(0,0,0,.9);transform:rotate(.6deg)}
+.hero img{width:100%;display:block}
+.cta{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
+section{padding:70px 0}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:34px}
+.card{padding:26px;transition:transform .35s cubic-bezier(.19,1,.22,1),border-color .3s}
+.card:hover{transform:translateY(-6px);border-color:rgba(211,148,103,.35)}
+.card .tag{color:var(--copper);font:500 10px var(--mono);letter-spacing:.14em;text-transform:uppercase}
+.card h3{font:500 21px var(--serif);margin:12px 0 8px}
+.card p{color:var(--muted);font-size:13.5px}
+.studios{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.studios span{padding:8px 14px;border:1px solid var(--line);border-radius:999px;font:500 12px var(--mono);color:var(--muted)}
+.studios span:hover{border-color:var(--copper);color:var(--copper)}
+.gallery{display:grid;grid-template-columns:1.4fr 1fr;gap:18px;margin-top:34px}
+.shot{overflow:hidden;position:relative}
+.shot img{width:100%;display:block}
+.shot .cap{position:absolute;left:14px;bottom:12px;font:500 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink);background:rgba(9,12,21,.7);backdrop-filter:blur(8px);padding:5px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.12)}
+.soon{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:280px;border:1px dashed rgba(211,148,103,.4);border-radius:24px;color:var(--copper);font:500 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;gap:10px}
+.soon .icon{font-size:34px}
+.steps{counter-reset:step;margin-top:34px;display:grid;gap:14px}
+.step{display:flex;gap:18px;align-items:baseline;padding:20px 24px}
+.step::before{counter-increment:step;content:counter(step,decimal-leading-zero);font:500 22px var(--mono);color:var(--copper)}
+.step b{font-size:15px}
+.step span{color:var(--muted);font-size:13.5px;display:block;margin-top:2px}
+table{width:100%;border-collapse:collapse;margin-top:28px}
+td{padding:15px 6px;border-bottom:1px solid rgba(241,238,231,.08);font-size:14px}
+td:first-child{color:var(--muted);font-family:var(--mono);font-size:12px;width:34%}
+code{font:500 13px var(--mono);background:rgba(255,255,255,.06);padding:3px 9px;border-radius:6px;color:var(--blue)}
+footer{border-top:1px solid var(--line);margin-top:60px;padding:38px 0 60px;color:var(--faint);font:400 12px var(--mono);letter-spacing:.06em;display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px}
+@media(max-width:900px){.hero,.gallery{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.grid{grid-template-columns:1fr}.hero{padding-bottom:30px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<nav>
+  <div class="wordmark">Atelier&nbsp;Lab</div>
+  <div class="links">
+    <a href="#features">Features</a>
+    <a href="#setup">Setup</a>
+    <a href="https://github.com/novel-byte/atelier-lab">GitHub ↗</a>
+  </div>
+</nav>
+
+<header>
+  <div class="hero">
+    <div>
+      <div class="eyebrow">Obsidian · PKM · Open Source · MIT</div>
+      <h1>Your second brain, but make it cinema.</h1>
+      <p class="sub">Atelier Lab is a dashboard-first Obsidian vault — nine glass-and-copper studios for your studies, code, reading, and career, with a three.js rain workspace where deep work finally feels like deep work.</p>
+      <div class="cta">
+        <a class="btn primary" href="https://github.com/novel-byte/atelier-lab">Get the vault</a>
+        <a class="btn" href="#features">See it work</a>
+      </div>
+    </div>
+    <div class="frame"><img src="screenshots/home.jpg" alt="Atelier Lab home dashboard"></div>
+  </div>
+</header>
+
+<section id="features">
+  <div class="eyebrow">What's inside</div>
+  <h2>Not a theme. A machine.</h2>
+  <p class="sub">Every surface is plain Markdown underneath — the interfaces are DataviewJS applications that read and write your notes.</p>
+  <div class="grid">
+    <div class="card glass"><div class="tag">Command center</div><h3>A Home that runs the day</h3><p>Editable focus, weekly rhythm, task pipeline with real checkboxes, project cards, and a capture bar that writes to your inbox from anywhere — Ctrl+Shift+Space.</p></div>
+    <div class="card glass"><div class="tag">Reading room</div><h3>Open Library on the shelf</h3><p>Search by title, author, or ISBN; import with cover art in one click. Update pages, status, and rating right on the card — progress calculates itself.</p></div>
+    <div class="card glass"><div class="tag">Lo-fi room</div><h3>Rain, on tap</h3><p>Three.js rain and dust over a pixel-city night, procedural lightning, mouse-parallax camera. A focus timer that persists, logs sessions, and plays your local tracks.</p></div>
+    <div class="card glass"><div class="tag">Career studio</div><h3>The pipeline, humanized</h3><p>Application funnel with inline stage changes, interview room, follow-up pills. Machine statuses under the hood so dashboards never silently drop a record.</p></div>
+    <div class="card glass"><div class="tag">Auto-skeletons</div><h3>New notes, pre-indexed</h3><p>Drop a file into Books, Concepts, or Works and its properties apply themselves — frontmatter only, zero body clutter.</p></div>
+    <div class="card glass"><div class="tag">Vault health</div><h3>A system that self-audits</h3><p>Unknown statuses, malformed progress, isolated notes — surfaced quietly before they can silently break a dashboard.</p></div>
+  </div>
+  <div class="studios">
+    <span>Academics</span><span>Programming</span><span>Projects</span><span>Library</span>
+    <span>Career</span><span>Research</span><span>Life</span><span>People</span><span>Culture</span>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="eyebrow">Gallery</div>
+  <h2>Looks like this. Works like that.</h2>
+  <div class="gallery">
+    <div class="shot glass"><img src="screenshots/reading.jpg" alt="Library reading tracker"><div class="cap">Library · reading room</div></div>
+    <div class="soon glass"><div class="icon">🌧</div>lo-fi clip<br>coming soon</div>
+  </div>
+</section>
+
+<section id="setup">
+  <div class="eyebrow">Five minutes</div>
+  <h2>From clone to command center.</h2>
+  <div class="steps">
+    <div class="step glass"><div><b>Clone &amp; open</b><span>Git clone the repo, then open the folder as an Obsidian vault.</span></div></div>
+    <div class="step glass"><div><b>Trust &amp; install</b><span>Enable community plugins and install the suggested list — all free.</span></div></div>
+    <div class="step glass"><div><b>Flip one switch</b><span>Dataview settings → Enable JavaScript Queries → reload.</span></div></div>
+    <div class="step glass"><div><b>Snippets on</b><span>Appearance → CSS snippets → enable atelier + lofi-scene.</span></div></div>
+    <div class="step glass"><div><b>Open Home</b><span>Delete the <code>#demo</code> seeds whenever you're ready. Start working.</span></div></div>
+  </div>
+</section>
+
+<section id="customize">
+  <div class="eyebrow">Make it yours</div>
+  <h2>Every knob in one table.</h2>
+  <table>
+    <tr><td>your name / daily focus</td><td>Click them directly on Home — saved instantly</td></tr>
+    <tr><td>accent color</td><td>Settings → Appearance → accent (<code>#c8895b</code> default)</td></tr>
+    <tr><td>reading goal</td><td>Library dashboard → <code>Set goal</code></td></tr>
+    <tr><td>focus music</td><td>Drop <code>.mp3/.ogg</code> files anywhere; pick them on the Lo-fi page</td></tr>
+    <tr><td>lo-fi scene</td><td>Swap <code>.obsidian/snippets/lofi-city.svg</code> for any image</td></tr>
+  </table>
+</section>
+
+<footer>
+  <div>MIT LICENSED · THREE.JS VENDORED · WORKS OFFLINE</div>
+  <div><a href="https://github.com/novel-byte/atelier-lab">SOURCE ↗</a> · BUILT WITH DATAVIEW · TASKS · TEMPLATER</div>
+</footer>
+
+</div>
+</body>
+</html>
