@@ -30,7 +30,7 @@
 @keyframes lofi-scene-breathe { from { transform: scale(1.03); } to { transform: scale(1.07); } }
 .atelier-lofi-page .lofi-capture, .atelier-lofi-page .lofi-track { width: 100%; margin-top: 18px; padding: 10px 12px; color: #bac2d0; background: rgba(4,7,14,.56); border: 1px solid rgba(255,255,255,.12); border-radius: 9px; }
 .atelier-lofi-page .lofi-ctx { display: flex; gap: 8px; margin: 14px 0 0; }
-.atelier-lofi-page .lofi-ctx .lofi-track { width: 160px; flex: 0 1 auto; margin: 0; }
+.atelier-lofi-page .lofi-ctx .lofi-track { width: 230px; flex: 0 1 auto; margin: 0; padding: 11px 14px; font-size: 13px; }
 .atelier-lofi-page .lofi-primary, .atelier-lofi-page .lofi-secondary { cursor: pointer; }
 .atelier-lofi-page .lofi-primary { background: #d39467; color: #17120f; border-color: #d39467; }
 .atelier-lofi-page .lofi-panel audio { display: block; }
