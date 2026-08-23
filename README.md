@@ -49,6 +49,8 @@ Requires desktop Obsidian ≥ 1.5. Internet needed once (plugin install) and for
 | Reading goal | Library → "Set goal" |
 | Focus music | Drop `.mp3/.ogg` files anywhere; select on the Lo-fi page |
 
+**Docs:** [novel-byte.github.io/atelier-lab](https://novel-byte.github.io/atelier-lab/)
+
 ## Credits
 
 Built with [Dataview](https://github.com/blacksmithgu/obsidian-dataview), [Tasks](https://github.com/obsidian-tasks-group/obsidian-tasks), [Templater](https://github.com/SilentVoid13/Templater), [Homepage](https://github.com/mirnovov/obsidian-homepage) — and vendored [three.js](NOTICE). Layout inspiration from the Obsidian dashboard community.
