@@ -1,0 +1,38 @@
+name: Personal-data gate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Personal-data scan
+        run: |
+          matches=0
+          while IFS= read -r pattern; do
+            [ -z "$pattern" ] && continue
+            hits=$(grep -rIniE "$pattern" . --exclude-dir=.git --exclude-dir=.github --exclude-dir=docs || true)
+            if [ -n "$hits" ]; then
+              echo "::error::Blocked pattern '$pattern' matched:"
+              echo "$hits"
+              matches=1
+            fi
+          done < .github/gate-patterns.txt
+          exit $matches
+
+      - name: README image references resolve
+        run: |
+          node -e "
+            const fs = require('fs');
+            const readme = fs.readFileSync('README.md', 'utf8');
+            const refs = [...readme.matchAll(/docs\/screenshots\/[A-Za-z0-9._-]+/g)].map(m => m[0]);
+            const missing = [...new Set(refs)].filter(r => !fs.existsSync(r));
+            if (missing.length) { missing.forEach(m => console.log('::error::Missing image:', m)); process.exit(1); }
+            console.log('All ' + new Set(refs).size + ' referenced screenshots exist.');
+          "
