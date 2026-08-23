@@ -1,0 +1,73 @@
+{
+  "data_version": 2,
+  "command_timeout": 5,
+  "templates_folder": "_templates",
+  "templates_pairs": [],
+  "trigger_on_file_creation_mode": "folder",
+  "auto_jump_to_cursor": false,
+  "jump_to_cursor_after_file_name": false,
+  "shell_path": "",
+  "user_scripts_folder": "",
+  "folder_templates": [
+    {
+      "folder": "Books",
+      "template": "_templates/light/Book.md"
+    },
+    {
+      "folder": "Projects",
+      "template": "_templates/light/Project.md"
+    },
+    {
+      "folder": "Courses",
+      "template": "_templates/light/Course.md"
+    },
+    {
+      "folder": "Assignments",
+      "template": "_templates/light/Assignment.md"
+    },
+    {
+      "folder": "Concepts",
+      "template": "_templates/light/Concept.md"
+    },
+    {
+      "folder": "Algorithms",
+      "template": "_templates/light/Algorithm.md"
+    },
+    {
+      "folder": "Questions",
+      "template": "_templates/light/Research Question.md"
+    },
+    {
+      "folder": "Sources",
+      "template": "_templates/light/Source.md"
+    },
+    {
+      "folder": "Areas",
+      "template": "_templates/light/Life Area.md"
+    },
+    {
+      "folder": "People",
+      "template": "_templates/light/Person.md"
+    },
+    {
+      "folder": "Works",
+      "template": "_templates/light/Work.md"
+    },
+    {
+      "folder": "Applications",
+      "template": "_templates/light/Job Application.md"
+    },
+    {
+      "folder": "Interviews",
+      "template": "_templates/light/Interview.md"
+    }
+  ],
+  "file_templates": [],
+  "syntax_highlighting": true,
+  "syntax_highlighting_mobile": false,
+  "enabled_templates_hotkeys": [],
+  "startup_templates": [],
+  "intellisense_render": "1",
+  "ignore_folders_on_creation": [],
+  "trigger_on_file_creation": false
+}

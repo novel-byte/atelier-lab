@@ -1,0 +1,42 @@
+/* Lo-fi scene treatment: the scene is intentionally image-led, not a collection of CSS primitives. */
+.atelier-lofi-page .view-content { background: #070a11 !important; overflow: hidden !important; }
+.atelier-lofi-page .lofi-app { font-family: var(--atelier-sans); }
+.atelier-lofi-page .lofi-scene { background-image: linear-gradient(90deg, rgba(6,8,16,.42), rgba(6,8,16,.04)), url("lofi-city.svg"); background-size: cover; background-position: center; filter: saturate(1) brightness(.92); transform: scale(1.03); animation: lofi-scene-breathe 18s ease-in-out infinite alternate; }
+.atelier-lofi-page .lofi-scene::after { opacity: .08; }
+.atelier-lofi-page .lofi-moon, .atelier-lofi-page .lofi-window, .atelier-lofi-page .lofi-desk, .atelier-lofi-page .lofi-lamp, .atelier-lofi-page .lofi-laptop { display: none; }
+.atelier-lofi-page .lofi-rain { opacity: .11; background-size: 30px 42px; }
+.atelier-lofi-page .lofi-panel { left: 8vw; top: 50%; transform: translateY(-50%); width: min(500px, calc(100vw - 48px)); background: rgba(9,12,21,.62); border-radius: 28px; box-shadow: 0 30px 100px rgba(0,0,0,.54); }
+.atelier-lofi-page .lofi-panel::before { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(135deg, rgba(211,148,103,.09), transparent 42%); }
+
+/* Placement C: bottom dock — scene fully unobstructed */
+.atelier-lofi-page .lofi-panel {
+  left: 50%; top: auto; bottom: 26px; transform: translateX(-50%);
+  width: min(1150px, calc(100vw - 40px));
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px 22px;
+  padding: 16px 26px; border-radius: 22px;
+}
+.atelier-lofi-page .lofi-panel h1 { display: none; }
+.atelier-lofi-page .lofi-kicker { position: absolute; top: -11px; left: 26px; padding: 2px 10px; background: #0a0d16; border: 1px solid rgba(255,255,255,.14); border-radius: 999px; letter-spacing: .18em; }
+.atelier-lofi-page .lofi-label-input { flex: 1 1 150px; min-width: 130px; margin: 0; border-bottom: 1px solid rgba(255,255,255,.16); }
+.atelier-lofi-page .lofi-clock { margin: 0; font-size: clamp(34px, 4.5vw, 52px); order: -1; }
+.atelier-lofi-page .lofi-status { position: absolute; top: -34px; left: 50%; transform: translateX(-50%); white-space: nowrap; color: #8f9ab0; font: 11px var(--atelier-mono); text-shadow: 0 1px 8px rgba(0,0,0,.8); }
+.atelier-lofi-page .lofi-presets, .atelier-lofi-page .lofi-controls { margin: 0; gap: 6px; }
+.atelier-lofi-page .lofi-controls { margin-left: auto; }
+.atelier-lofi-page .lofi-track { flex: 0 1 170px; min-width: 120px; margin: 0; }
+.atelier-lofi-page .lofi-panel > select.lofi-track:nth-of-type(1) { }
+.atelier-lofi-page .lofi-capture { flex: 1 1 200px; min-width: 160px; margin: 0; }
+.atelier-lofi-page .lofi-panel audio { flex: 0 1 220px; margin: 0; }
+.atelier-lofi-page .lofi-panel > div[style*="display:flex"] { margin: 0; gap: 8px; }
+@keyframes lofi-scene-breathe { from { transform: scale(1.03); } to { transform: scale(1.07); } }
+.atelier-lofi-page .lofi-capture, .atelier-lofi-page .lofi-track { width: 100%; margin-top: 18px; padding: 10px 12px; color: #bac2d0; background: rgba(4,7,14,.56); border: 1px solid rgba(255,255,255,.12); border-radius: 9px; }
+.atelier-lofi-page .lofi-primary, .atelier-lofi-page .lofi-secondary { cursor: pointer; }
+.atelier-lofi-page .lofi-primary { background: #d39467; color: #17120f; border-color: #d39467; }
+.atelier-lofi-page .lofi-panel audio { display: block; }
+@media (prefers-reduced-motion: reduce) { .atelier-lofi-page .lofi-scene { animation: none; } }
+@media (max-width: 900px) {
+  .atelier-lofi-page .lofi-panel { left: 50%; top: 50%; bottom: auto; transform: translate(-50%, -50%); flex-direction: column; align-items: stretch; width: min(460px, calc(100vw - 40px)); padding: 25px; border-radius: 24px; gap: 14px; }
+  .atelier-lofi-page .lofi-panel h1 { display: block; font-size: clamp(28px, 6vw, 44px); margin: 18px 0 8px; }
+  .atelier-lofi-page .lofi-clock { font-size: 44px; text-align: center; }
+  .atelier-lofi-page .lofi-status { position: static; transform: none; text-align: center; }
+  .atelier-lofi-page .lofi-controls { margin-left: 0; justify-content: center; }
+}

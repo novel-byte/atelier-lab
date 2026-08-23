@@ -1,0 +1,9 @@
+{
+  "id": "atelier-tools",
+  "name": "Atelier Tools",
+  "version": "1.0.0",
+  "minAppVersion": "1.5.0",
+  "description": "Universal capture and note creation for the Atelier vault.",
+  "author": "Atelier",
+  "isDesktopOnly": false
+}
