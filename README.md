@@ -3,7 +3,10 @@
 A cinematic, dashboard-first Obsidian vault for students and builders — glass bento panels, a live reading tracker with Open Library search, a career pipeline, and a full-screen lo-fi workspace with rain, focus timer, and music.
 
 <p align="center">
-  <img src="docs/screenshots/home.png" width="820" alt="Home dashboard"/><!-- REPLACE with your capture -->
+  <img src="docs/screenshots/home.jpg" width="820" alt="Home dashboard"/></p>
+
+<p align="center">
+  <img src="docs/screenshots/reading.jpg" width="420" alt="Library"/>
 </p>
 
 ## Highlights
