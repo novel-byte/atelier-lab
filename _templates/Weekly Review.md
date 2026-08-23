@@ -3,24 +3,23 @@ type: weekly_review
 tags: [journal/weekly]
 aliases: []
 related: []
-week: <% tp.date.now("gggg-[W]WW") %>
+week: {{date:gggg-[W]WW}}
 ---
 
-# Week <% tp.date.now("WW") %> / <% tp.date.now("YYYY") %>
+# Week {{date:WW}} / {{date:YYYY}}
 <span class="atelier-kicker">Review · edit · begin again</span>
 
 > [!metric] **The week in signals**
 > ```dataview
 > TABLE WITHOUT ID sum(study_hours) AS "Study hours", sum(coding_hours) AS "Coding hours", sum(pages_read) AS "Pages read", average(energy) AS "Avg energy"
 > FROM "01 Journal/Daily"
-> WHERE date >= date(<% tp.date.now("YYYY-MM-DD") %>) - dur(6 days) AND date <= date(<% tp.date.now("YYYY-MM-DD") %>)
+> WHERE date >= date(today) - dur(6 days) AND date <= date(today)
 > ```
 
 ## What happened
 ```tasks
 done
-done after <% tp.date.now("YYYY-MM-DD") %> - dur(6 days)
-done before <% tp.date.now("YYYY-MM-DD") %> + dur(1 day)
+done after 7 days ago
 sort by done
 ```
 

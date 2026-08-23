@@ -3,7 +3,7 @@ type: daily
 tags: [journal/daily]
 aliases: []
 related: []
-date: <% tp.date.now("YYYY-MM-DD") %>
+date: {{date:YYYY-MM-DD}}
 mood:
 energy:
 focus:
@@ -12,17 +12,16 @@ coding_hours: 0
 pages_read: 0
 ---
 
-# <% tp.date.now("dddd, MMMM D") %>
-<span class="atelier-kicker"><% tp.date.now("gggg [W]WW") %></span>
+# {{date:dddd, MMMM D}}
+<span class="atelier-kicker">{{date:YYYY · [W]WW}}</span>
 
 > [!focus] **Intention**
 > 
 
 ## Top Three
-- [ ] 
-- [ ] 
-- [ ] 
-
+- 
+- 
+- 
 ## Schedule
 
 ## Study / Build
