@@ -48,7 +48,7 @@ const render = () => {
   const items = filtered();
   count.textContent = `${items.length} ${currentFilter}`;
   tabBar(navBar,
-    [["blocks", "All", "all"], ["rocket", "Active", "active"], ...STATUS.project.filter(([v]) => !["idea", "planned", "complete"].includes(v)).map(([v, l]) => [v === "blocked" ? "octagon-alert" : v === "paused" ? "pause-circle" : "archive", l, v]), ["complete-circle-2", "Complete", "complete"]],
+    [["blocks", "All", "all"], ["rocket", "Active", "active"], ...STATUS.project.filter(([v]) => !["idea", "planned", "complete", "active"].includes(v)).map(([v, l]) => [v === "blocked" ? "octagon-alert" : v === "paused" ? "pause-circle" : "archive", l, v]), ["complete-circle-2", "Complete", "complete"]],
     currentFilter, v => { currentFilter = v; render(); });
   if (!items.length) return empty(list, `No ${currentFilter} projects.`);
   items.forEach((p, i) => {

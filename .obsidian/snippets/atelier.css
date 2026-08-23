@@ -135,6 +135,30 @@
   overflow-y: auto !important;
 }
 
+/* Kiosk mode via plugin-toggled body class — deterministic, no :has() dependency. */
+body.atelier-lab-active .mod-left-split,
+body.atelier-lab-active .mod-right-split,
+body.atelier-lab-active .workspace-ribbon,
+body.atelier-lab-active .workspace-tab-header-container,
+body.atelier-lab-active .status-bar,
+body.atelier-lab-active .view-header {
+  display: none !important;
+}
+body.atelier-lab-active .workspace-split.mod-root,
+body.atelier-lab-active .workspace-leaf,
+body.atelier-lab-active .workspace-leaf-content {
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  height: 100% !important;
+}
+body.atelier-lab-active .markdown-reading-view,
+body.atelier-lab-active .markdown-preview-view {
+  height: 100% !important;
+  min-height: 100% !important;
+  overflow-y: auto !important;
+}
+
 /* Zen-gallery alignment: glass hero and premium bento geometry. */
 .atelier-dashboard-page {
   --background-primary: #0c0d10;

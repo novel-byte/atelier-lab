@@ -97,6 +97,29 @@ module.exports = class AtelierTools extends Plugin {
     this.addCommand({ id: "quick-capture", name: "Quick capture", hotkeys: [{ modifiers: ["Mod", "Shift"], key: "Space" }], callback: () => new CaptureModal(this.app).open() });
     this.addCommand({ id: "new-note", name: "Create a note", callback: () => new NewNoteModal(this.app).open() });
     this.setupSkeletonEngine();
+    this.setupKioskMode();
+  }
+
+  // ------------------------------------------------------------
+  // Kiosk mode: toggles body.atelier-lab-active when the active note
+  // carries the dashboard-layout cssclass. Deterministic replacement
+  // for :has()-based CSS, which not every Obsidian build honors.
+  // ------------------------------------------------------------
+  setupKioskMode() {
+    const update = () => {
+      try {
+        const active = this.app.workspace.getActiveFile();
+        const fm = active ? this.app.metadataCache.getFileCache(active)?.frontmatter : null;
+        let cc = fm?.cssclasses ?? [];
+        if (typeof cc === "string") cc = cc.split(/[\s,]+/);
+        const isDashboard = Array.isArray(cc) && cc.includes("dashboard-layout");
+        document.body.classList.toggle("atelier-lab-active", !!isDashboard);
+      } catch (_) {}
+    };
+    this.app.workspace.on("active-leaf-change", () => setTimeout(update, 60));
+    this.app.workspace.on("layout-change", () => setTimeout(update, 60));
+    this.app.workspace.onLayoutReady?.(() => setTimeout(update, 300));
+    setTimeout(update, 400);
   }
 
   // ------------------------------------------------------------

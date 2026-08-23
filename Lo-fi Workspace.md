@@ -17,6 +17,13 @@ let interval;
 
 const scene = root.createDiv({ cls: "lofi-scene" });
 scene.createDiv({ cls: "lofi-rain" });
+// Scene art resolved through the vault API — immune to snippet path handling.
+const sceneArt = app.vault.getAbstractFileByPath(H.path("_core/vendor/lofi-city.svg"));
+if (sceneArt) {
+  scene.style.backgroundImage = `linear-gradient(90deg, rgba(6,8,16,.42), rgba(6,8,16,.04)), url(${app.vault.adapter.getResourcePath(sceneArt.path)})`;
+  scene.style.backgroundSize = "cover";
+  scene.style.backgroundPosition = "center";
+}
 
 // --- WebGL atmosphere (three.js, vendored, fully lifecycle-guarded) ---
 const REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -111,7 +118,7 @@ const statusLine = panel.createDiv({ cls: "lofi-status" });
 // context selects — sessions log against a project/course
 const labProjects = dv.pages(H.q("Projects")).where(p => p.type === "project").array().map(p => p.file.name);
 const labCourses = dv.pages(H.q("Courses")).where(p => p.type === "course").array().map(c => c.file.name);
-const ctx = panel.createDiv({ style: "display:flex;gap:8px;margin-top:14px;" });
+const ctx = panel.createDiv({ cls: "lofi-ctx" });
 const mkSelect = (placeholder, options) => {
   const s = ctx.createEl("select", { cls: "lofi-track" }); s.style.marginTop = "0";
   s.createEl("option", { text: placeholder, value: "" });

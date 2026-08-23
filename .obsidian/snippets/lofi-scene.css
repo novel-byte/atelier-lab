@@ -1,7 +1,7 @@
 /* Lo-fi scene treatment: the scene is intentionally image-led, not a collection of CSS primitives. */
 .atelier-lofi-page .view-content { background: #070a11 !important; overflow: hidden !important; }
 .atelier-lofi-page .lofi-app { font-family: var(--atelier-sans); }
-.atelier-lofi-page .lofi-scene { background-image: linear-gradient(90deg, rgba(6,8,16,.42), rgba(6,8,16,.04)), url("lofi-city.svg"); background-size: cover; background-position: center; filter: saturate(1) brightness(.92); transform: scale(1.03); animation: lofi-scene-breathe 18s ease-in-out infinite alternate; }
+.atelier-lofi-page .lofi-scene { background-size: cover; background-position: center; filter: saturate(1) brightness(.92); transform: scale(1.03); animation: lofi-scene-breathe 18s ease-in-out infinite alternate; }
 .atelier-lofi-page .lofi-scene::after { opacity: .08; }
 .atelier-lofi-page .lofi-moon, .atelier-lofi-page .lofi-window, .atelier-lofi-page .lofi-desk, .atelier-lofi-page .lofi-lamp, .atelier-lofi-page .lofi-laptop { display: none; }
 .atelier-lofi-page .lofi-rain { opacity: .11; background-size: 30px 42px; }
@@ -29,6 +29,8 @@
 .atelier-lofi-page .lofi-panel > div[style*="display:flex"] { margin: 0; gap: 8px; }
 @keyframes lofi-scene-breathe { from { transform: scale(1.03); } to { transform: scale(1.07); } }
 .atelier-lofi-page .lofi-capture, .atelier-lofi-page .lofi-track { width: 100%; margin-top: 18px; padding: 10px 12px; color: #bac2d0; background: rgba(4,7,14,.56); border: 1px solid rgba(255,255,255,.12); border-radius: 9px; }
+.atelier-lofi-page .lofi-ctx { display: flex; gap: 8px; margin: 14px 0 0; }
+.atelier-lofi-page .lofi-ctx .lofi-track { width: 160px; flex: 0 1 auto; margin: 0; }
 .atelier-lofi-page .lofi-primary, .atelier-lofi-page .lofi-secondary { cursor: pointer; }
 .atelier-lofi-page .lofi-primary { background: #d39467; color: #17120f; border-color: #d39467; }
 .atelier-lofi-page .lofi-panel audio { display: block; }
