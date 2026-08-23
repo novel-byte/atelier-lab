@@ -76,7 +76,10 @@ return (function build({ dv, require, app }) {
     icon(check, "circle");
     check.onclick = async e => { e.stopPropagation(); if (await completeTask(task)) check.classList.add("is-done"); };
     const body = row.createDiv({ cls: "adx-task-body" });
-    body.createDiv({ cls: "adx-task-title", text: task.text.replace(/📅.*|⏫|🔼|🔽|✅.*|\(.*?\)/g, "").trim() || "(untitled)" });
+    body.createDiv({ cls: "adx-task-title", text: task.text
+      .replace(/\[\[([^\]|\]]+)\|([^\]]+)\]\]/g, "$2")
+      .replace(/\[\[([^\]]+)\]\]/g, "$1")
+      .replace(/📅.*|⏫|🔼|🔽|✅.*|\(.*?\)/g, "").trim() || "(untitled)" });
     body.createDiv({ cls: "adx-task-meta", text: metaOverride || task.path.split("/").pop().replace(".md", "") });
     const due = row.createDiv({ cls: `adx-pill ${task.due && task.due <= dv.date("today") ? "is-hot" : ""}`,
                                 text: task.due ? task.due.toFormat("MMM d") : "Open" });
