@@ -32,6 +32,24 @@ return (function build({ dv, require, app }) {
            ["paused", "Paused"], ["abandoned", "Abandoned"], ["revisit", "Revisit"]],
   };
   const ACTIVE_PROJECT = ["idea", "planned", "active"];
+  // Synthesized frontmatter when a template lookup misses — notes are never left untyped.
+  const KIND_FRONTMATTER = {
+    Project: { type: "project", status: "idea", progress: 0 },
+    Course: { type: "course", status: "active", term: "", progress: 0 },
+    Assignment: { type: "assignment", status: "planned", course: "" },
+    Concept: { type: "concept", domain: "computer science", confidence: 1 },
+    Algorithm: { type: "algorithm", difficulty: 3, confidence: 1 },
+    "Coding problem": { type: "coding_problem", status: "unsolved" },
+    Book: { type: "book", status: "want_to_read", progress: 0, current_page: 0 },
+    "Research question": { type: "research_question", status: "open" },
+    Source: { type: "source", kind: "article" },
+    Person: { type: "person" },
+    "Life area": { type: "life_area", status: "active" },
+    "Cultural work": { type: "work", kind: "book", status: "want_to_experience" },
+    "Job application": { type: "job_application", status: "saved" },
+    Interview: { type: "interview" },
+    "Focus session": { type: "focus_session", status: "complete" },
+  };
   const values = type => STATUS[type].map(([v]) => v);
   const label = (type, value) => { const hit = STATUS[type].find(([v]) => v === value); return hit ? hit[1] : value || "—"; };
 
@@ -147,13 +165,24 @@ return (function build({ dv, require, app }) {
     const path = normalizePath(`${ROOT}/${folder}/${name}.md`);
     if (app.vault.getAbstractFileByPath(path)) { new Notice("A note with that name already exists."); return null; }
     let content = `# ${name}\n`;
-    const tf = template ? app.vault.getAbstractFileByPath(`${ROOT}/_templates/${template}`) : null;
-    if (tf) content = (await app.vault.read(tf))
-      .replace(/<% tp\.file\.title %>/g, name)
-      .replace(/<% tp\.date\.now\("YYYY-MM-DD"\) %>/g, window.moment().format("YYYY-MM-DD"))
-      .replace(/\{\{title\}\}/g, name)
-      .replace(/\{\{date:YYYY-MM-DD\}\}/g, window.moment().format("YYYY-MM-DD"));
-    if (!content.startsWith("---")) content = `---\n---\n\n${content}`;
+    const probe = rel => app.vault.getAbstractFileByPath(normalizePath(`${ROOT}/${rel}`));
+    let tf = template ? probe(`_templates/${template}`) : null;
+    if (!tf && template) tf = probe(`_templates/light/${template}`);
+    if (tf) {
+      content = (await app.vault.read(tf))
+        .replace(/<% tp\.file\.title %>/g, name)
+        .replace(/<% tp\.date\.now\("([^"]+)"\) %>/g, (_, fmt) => window.moment().format(fmt))
+        .replace(/\{\{title\}\}/g, name)
+        .replace(/\{\{date:YYYY-MM-DD\}\}/g, window.moment().format("YYYY-MM-DD"));
+    } else {
+      // Never ship an untyped orphan — synthesize frontmatter from the kind map.
+      const probed = template ? `"${ROOT}/_templates/${template}" and "light/${template}"` : "(none requested)";
+      console.warn(`[Atelier Lab] Template lookup missed for ${probed} — synthesized typed frontmatter.`);
+      new Notice(`Template not found — created with typed frontmatter instead.`);
+      const fm = KIND_FRONTMATTER[kind] || { type: kind.toLowerCase().replace(/\s+/g, "_"), status: "active" };
+      const fmLines = Object.entries(fm).map(([k, v]) => `${k}: ${v}`).join("\n");
+      content = `---\n${fmLines}\n---\n\n# ${name}\n`;
+    }
     const tags = data.tags.split(",").map(s => s.trim()).filter(Boolean);
     const rel = data.related.trim() ? [`[[${data.related.trim().replace(/\.md$/, "")}]]`] : [];
     const extras = {};
@@ -223,8 +252,28 @@ return (function build({ dv, require, app }) {
     return parent;
   }
 
+  // ---------- back-to-home floating button ----------
+  function mountHome(rootEl) {
+    if (rootEl.querySelector(".sbx-home-fab")) return;
+    const btn = rootEl.createDiv({ cls: "sbx-home-fab", attr: { title: "Back to Home", "aria-label": "Back to Home" } });
+    icon(btn, "home");
+    btn.onclick = () => open(path("Home.md"));
+    return btn;
+  }
+
+  // ---------- filter tab bar ----------
+  function tabBar(parent, defs, current, onChange) {
+    parent.innerHTML = "";
+    defs.forEach(([iconName, text, value]) => {
+      const item = parent.createDiv({ cls: `adx-nav-item${value === current ? " is-active" : ""}`, attr: { "data-filter": value } });
+      icon(item, iconName); item.createEl("span", { text });
+      item.onclick = () => onChange(value);
+    });
+    return parent;
+  }
+
   return {
-    ROOT, STATUS, ACTIVE_PROJECT, values, label,
+    ROOT, STATUS, ACTIVE_PROJECT, KIND_FRONTMATTER, values, label,
     icon, open, sectionHead, empty, relative, safeName, clampPct,
     path, q, isLab, pagesIn, labPages, store,
     completeTask, taskRow, form, createNote, patchFrontmatter,

@@ -5,9 +5,19 @@ aliases: []
 related: []
 relationship: historical inspiration
 organization: —
+last_contact:
+next_contact:
+context:
 ---
 
 # Ada Lovelace
 
 ## Remember
-First to see algorithms as more than arithmetic — wrote one for Babbage's engine.
+Wrote the first algorithm intended for a machine — and saw beyond calculation.
+
+## Current context
+
+## Interactions
+
+## Follow-up
+- [ ]

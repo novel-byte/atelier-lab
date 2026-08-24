@@ -30,6 +30,31 @@ function frontmatter(tags, related) {
   return `tags: ${JSON.stringify(cleanTags)}\naliases: []\nrelated: ${JSON.stringify(cleanRelated)}\n`;
 }
 
+// ---------- Atelier Lab detection: remap create-targets inside a Lab vault ----------
+function labTypesFor(app) {
+  let root = null;
+  if (app.vault.getAbstractFileByPath("_core/helpers.js")) root = "";
+  else if (app.vault.getAbstractFileByPath("Atelier Lab/_core/helpers.js")) root = "Atelier Lab";
+  if (root === null) return TYPES; // production vault — keep original targets
+  const T = (folder, template, kind) => [kind, root ? `${root}/${folder}` : folder, root ? `${root}/_templates/${template}` : `_templates/${template}`];
+  return [
+    ["Blank note", root ? `${root}` : "02 Capture", ""],
+    T("Projects", "Project.md", "Project"),
+    T("Courses", "Course.md", "Course"),
+    T("Assignments", "Assignment.md", "Assignment"),
+    T("Concepts", "Concept.md", "Concept"),
+    T("Algorithms", "Algorithm.md", "Algorithm"),
+    T("Books", "Book.md", "Book"),
+    T("Questions", "Research Question.md", "Research question"),
+    T("Sources", "Source.md", "Source"),
+    T("Areas", "Life Area.md", "Life area"),
+    T("People", "Person.md", "Person"),
+    T("Works", "Work.md", "Cultural work"),
+    T("Applications", "Job Application.md", "Job application"),
+    T("Interviews", "Interview.md", "Interview"),
+  ];
+}
+
 // ============================================================
 // Modals
 // ============================================================
@@ -59,8 +84,9 @@ class CaptureModal extends Modal {
 class NewNoteModal extends Modal {
   onOpen() {
     this.titleEl.setText("Create a note");
+    const types = labTypesFor(this.app);
     new Setting(this.contentEl).setName("Type").addDropdown(drop => {
-      this.type = drop; TYPES.forEach((item, i) => drop.addOption(String(i), item[0])); drop.setValue("0");
+      this.type = drop; types.forEach((item, i) => drop.addOption(String(i), item[0])); drop.setValue("0");
     });
     new Setting(this.contentEl).setName("Title").addText(text => { this.title = text; text.setPlaceholder("Note title"); });
     new Setting(this.contentEl).setName("Tags").addText(text => { this.tags = text; text.setPlaceholder("study, cs, priority"); });
@@ -70,12 +96,17 @@ class NewNoteModal extends Modal {
   }
   async create() {
     const title = safeName(this.title.getValue()); if (!title) return new Notice("Add a title first.");
-    const [label, folder, templatePath] = TYPES[Number(this.type.getValue())];
+    const types = labTypesFor(this.app);
+    const [label, folder, templatePath] = types[Number(this.type.getValue())];
     const path = normalizePath(`${folder}/${title}.md`); if (this.app.vault.getAbstractFileByPath(path)) return new Notice("That note already exists.");
     let content = `---\ntype: note\ncreated: ${window.moment().format("YYYY-MM-DD")}\n---\n\n# ${title}\n\n`;
     if (templatePath) {
       const template = this.app.vault.getAbstractFileByPath(templatePath);
-      if (template instanceof TFile) content = (await this.app.vault.read(template)).replaceAll("{{title}}", title).replaceAll("{{date:YYYY-MM-DD}}", window.moment().format("YYYY-MM-DD"));
+      if (template instanceof TFile) content = (await this.app.vault.read(template))
+        .replace(/<% tp\.file\.title %>/g, title)
+        .replace(/<% tp\.date\.now\("([^"]+)"\) %>/g, (_, fmt) => window.moment().format(fmt))
+        .replaceAll("{{title}}", title)
+        .replaceAll("{{date:YYYY-MM-DD}}", window.moment().format("YYYY-MM-DD"));
       if (!content.startsWith("---\n")) content = `---\ntype: ${label.toLowerCase().replace(/\s+/g, "_")}\n---\n\n${content}`;
     }
     const file = await this.app.vault.create(path, content);

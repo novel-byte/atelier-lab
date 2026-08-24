@@ -30,6 +30,18 @@ A cinematic, dashboard-first Obsidian vault for students and builders — glass 
 
 Requires desktop Obsidian ≥ 1.5. Internet needed once (plugin install) and for Open Library search; everything else works offline.
 
+### Required plugins
+
+| Plugin | Why |
+|---|---|
+| **Dataview** | Powers every dashboard — *enable JavaScript Queries in its settings* |
+| **Templater** | Auto-applies metadata to new notes in domain folders |
+| **Tasks** | Task pipelines across dashboards |
+| **Homepage** | Opens Home on startup |
+| **Periodic Notes** + **Calendar** | Daily/weekly/monthly journaling |
+| **Style Settings** | Snippet toggles |
+| **Atelier Tools** | Bundled — quick capture (`Ctrl/Cmd+Shift+Space`) + typed note creation |
+
 ## Folder map
 
 | Folder | Purpose |
