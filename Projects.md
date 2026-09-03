@@ -10,6 +10,7 @@ const H = new Function("dv", "require", "app", await app.vault.read((app.vault.g
 const { icon, open, sectionHead, empty, tabBar, taskRow, createNote, STATUS, Notice } = H;
 const root = dv.container.createDiv({ cls: "adx adx-enter" });
 H.mountHome(root);
+H.mountNav(root);
 
 const projects = dv.pages(H.q("Projects")).where(p => p.type === "project").array();
 const tasks = H.labPages().file.tasks.array().filter(t => H.isLab(t.path) && !t.completed && !t.path.includes("_templates/"))

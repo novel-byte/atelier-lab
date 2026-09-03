@@ -10,6 +10,7 @@ const H = new Function("dv", "require", "app", await app.vault.read((app.vault.g
 const { icon, open, sectionHead, empty, tabBar, taskRow, createNote } = H;
 const root = dv.container.createDiv({ cls: "adx adx-enter" });
 H.mountHome(root);
+H.mountNav(root);
 
 const courses = dv.pages(H.q("Courses")).where(p => p.type === "course").array();
 const assignments = dv.pages(H.q("Assignments")).array();

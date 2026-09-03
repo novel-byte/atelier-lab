@@ -10,6 +10,7 @@ const H = new Function("dv", "require", "app", await app.vault.read((app.vault.g
 const { icon, open, Notice } = H;
 const root = dv.container.createDiv({ cls: "adx adx-enter" });
 H.mountHome(root);
+H.mountNav(root);
 const labPages = H.labPages().filter(p => p.path !== H.path("Home.md") && !p.path.includes("_templates/"));
 
 const hero = root.createDiv({ cls: "adx-hero" });

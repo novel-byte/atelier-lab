@@ -11,6 +11,7 @@ const H = new Function("dv", "require", "app", await app.vault.read(f))(dv, requ
 const { icon, open, sectionHead, empty, relative, taskRow, store, form, createNote, Notice } = H;
 
 const root = dv.container.createDiv({ cls: "adx adx-enter" });
+H.mountNav(root);
 const state = { name: store.get("name", "friend"), focus: store.get("focus", "Choose the work that changes you.") };
 const now = new Date();
 const greeting = now.getHours() < 5 ? "Still awake" : now.getHours() < 12 ? "Good morning" : now.getHours() < 18 ? "Good afternoon" : "Good evening";
@@ -65,9 +66,7 @@ const createBtn = command.createDiv({ cls: "adx-command-item adx-create" });
 icon(createBtn, "plus-circle"); createBtn.createEl("span", { text: "Create" });
 createBtn.onclick = () => {
   const options = [
-    ["Project", "Projects", "Project.md"], ["Course", "Courses", "Course.md"], ["Assignment", "Assignments", "Assignment.md"],
-    ["Concept", "Concepts", "Concept.md"], ["Book", "Books", "Book.md"], ["Research question", "Questions", "Research Question.md"],
-    ["Person", "People", "Person.md"], ["Life area", "Areas", "Life Area.md"], ["Cultural work", "Works", "Work.md"],
+qq    ["Person", "People", "Person.md"], ["Life area", "Areas", "Life Area.md"], ["Cultural work", "Works", "Work.md"],
   ];
   (async () => {
     const res = await form({ title: "Create in the Lab", submitText: "Next", fields: [

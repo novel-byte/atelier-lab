@@ -272,11 +272,39 @@ return (function build({ dv, require, app }) {
     return parent;
   }
 
+  // ---------- cross-domain navigation rail ----------
+  const NAV = [
+    ["home", "Home", "Home.md"],
+    ["book-open", "Academics", "Academics.md"],
+    ["code-2", "Programming", "Programming.md"],
+    ["rocket", "Projects", "Projects.md"],
+    ["library", "Library", "Library.md"],
+    ["briefcase-business", "Jobs", "Jobs.md"],
+    ["help-circle", "Research", "Research.md"],
+    ["heart-pulse", "Life", "Life.md"],
+    ["palette", "Culture", "Culture.md"],
+    ["activity", "Vault Health", "Vault Health.md"],
+  ];
+  function mountNav(rootEl) {
+    if (rootEl.querySelector(".sbx-nav")) return;
+    const rail = rootEl.createDiv({ cls: "sbx-nav", attr: { "aria-label": "Domain navigation" } });
+    const activeName = (app.workspace.getActiveFile && app.workspace.getActiveFile()?.name) || "";
+    NAV.forEach(([iconName, label, filename]) => {
+      const item = rail.createDiv({
+        cls: `sbx-nav-item${filename === activeName ? " is-active" : ""}`,
+        attr: { title: label, "aria-label": label },
+      });
+      icon(item, iconName);
+      item.onclick = () => open(path(filename));
+    });
+    return rail;
+  }
+
   return {
     ROOT, STATUS, ACTIVE_PROJECT, KIND_FRONTMATTER, values, label,
     icon, open, sectionHead, empty, relative, safeName, clampPct,
     path, q, isLab, pagesIn, labPages, store,
     completeTask, taskRow, form, createNote, patchFrontmatter,
-    logFocusSession, tabBar, mountHome, Notice,
+    logFocusSession, tabBar, mountHome, mountNav, Notice,
   };
 })({ dv, require, app });
