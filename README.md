@@ -1,3 +1,7 @@
+---
+type: utility
+---
+
 # Atelier Lab
 
 A cinematic, dashboard-first Obsidian vault for students and builders — glass bento panels, a live reading tracker with Open Library search, a career pipeline, and a full-screen lo-fi workspace with rain, focus timer, and music.

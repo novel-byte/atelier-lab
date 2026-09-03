@@ -4,9 +4,6 @@ tags: [sandbox]
 cssclasses: [dashboard-layout, atelier-dashboard-page]
 ---
 
-> [!info] Nothing rendering?
-> Enable Dataview and turn on **Enable JavaScript Queries** in its settings, then reload.
-
 ```dataviewjs
 (async () => {
 const f = (app.vault.getAbstractFileByPath("_core/helpers.js") || app.vault.getAbstractFileByPath(H.path("_core/helpers.js")));
