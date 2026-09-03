@@ -270,6 +270,13 @@ body.atelier-lab-active .markdown-preview-view {
   .sbx-nav-item { display: flex; width: 34px; height: 34px; border-radius: 10px; }
   .sbx-nav-item .adx-icon { width: 17px; height: 17px; }
 }
+/* Atelier Lab Inbox dashboard */
+.adx-hero-sub { color: var(--atelier-faint); font-size: 12px; margin-top: 8px; }
+.adx-capture { display: flex; align-items: center; gap: 10px; margin-top: 16px; min-height: 46px; padding: 0 14px; border: 1px solid var(--atelier-line); background: rgba(255,255,255,.025); border-radius: 9px; }
+.adx-capture input { border: 0; outline: 0; background: transparent; color: var(--atelier-ink); flex: 1; min-width: 0; font-size: 13px; }
+.adx-capture input::placeholder { color: var(--atelier-faint); }
+.adx-capture:focus-within { border-color: rgba(211,148,103,.65); background: rgba(211,148,103,.05); box-shadow: 0 0 0 3px rgba(211,148,103,.06); }
+.adx-day-row { padding-top: 4px; }
 .adx-create-overlay { position: fixed; inset: 0; z-index: 9999; display: grid; place-items: center; background: rgba(3,5,9,.72); backdrop-filter: blur(14px); animation: adx-enter .2s ease both; }
 .adx-create-modal { width: min(440px, calc(100vw - 32px)); display: grid; gap: 12px; padding: 24px; border: 1px solid rgba(241,238,231,.16); border-radius: 20px; background: #171a20; box-shadow: 0 30px 100px rgba(0,0,0,.65); }
 .adx-create-select, .adx-create-input { width: 100%; min-height: 42px; padding: 10px 12px; color: var(--atelier-ink); background: #0e1014; border: 1px solid var(--atelier-line); border-radius: 9px; outline: none; }

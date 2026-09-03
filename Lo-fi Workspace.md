@@ -157,8 +157,8 @@ logBtn.onclick = () => H.logFocusSession({ label: label.value.trim() || state.la
 label.onchange = () => { state.label = label.value.trim() || "Deep work"; save(); };
 capture.onkeydown = async e => {
   if (e.key !== "Enter" || !capture.value.trim()) return;
-  const f = app.vault.getAbstractFileByPath(H.path("Inbox.md"));
-  if (f) { await app.vault.append(f, `\n- ${capture.value.trim()} *${window.moment().format("YYYY-MM-DD HH:mm")}*`); capture.value = ""; new Notice("Saved to Lab inbox."); }
+  await H.captureToInbox(capture.value, "thought");
+  capture.value = "";
 };
 async function finish() {
   stop(); state.running = false;

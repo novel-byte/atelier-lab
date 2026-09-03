@@ -232,6 +232,26 @@ return (function build({ dv, require, app }) {
     new Notice("Focus session logged.");
   }
 
+  // ---------- daily capture inbox ----------
+  // Writes a capture into Inbox/<YYYY-MM-DD>.md, creating the note on first use
+  // with typed frontmatter, so the Inbox dashboard can surface days by date.
+  async function captureToInbox(text, kind = "thought") {
+    const clean = String(text).trim();
+    if (!clean) return null;
+    const day = window.moment().format("YYYY-MM-DD");
+    const filePath = normalizePath(`${ROOT}/Inbox/${day}.md`);
+    let file = app.vault.getAbstractFileByPath(filePath);
+    if (!file) {
+      file = await app.vault.create(filePath,
+        `---\ntype: inbox\ndate: ${day}\ntags: [inbox]\n---\n\n# Inbox / ${day}\n`);
+    }
+    const prefix = kind === "task" ? "- [ ] " : "- ";
+    const stamp = window.moment().format("YYYY-MM-DD HH:mm");
+    await app.vault.append(file, `\n${prefix}${clean} *${stamp}*`);
+    new Notice("Saved to inbox.");
+    return file;
+  }
+
   // ---------- back-to-home floating button ----------
   function mountHome(rootEl) {
     if (rootEl.querySelector(".sbx-home-fab")) return;
@@ -311,6 +331,6 @@ return (function build({ dv, require, app }) {
     icon, open, sectionHead, empty, relative, safeName, clampPct,
     path, q, isLab, pagesIn, labPages, store,
     completeTask, taskRow, form, createNote, patchFrontmatter,
-    logFocusSession, tabBar, mountHome, mountNav, Notice,
+    logFocusSession, captureToInbox, tabBar, mountHome, mountNav, Notice,
   };
 })({ dv, require, app });

@@ -37,8 +37,25 @@ sort by done
 
 ## Capture Processing
 ```dataviewjs
-const inbox = dv.page('"02 Capture/Inbox"');
-const tasks = inbox?.file?.tasks?.where(t => !t.completed) ?? [];
-if (!tasks.length) dv.paragraph("Inbox clear. Nothing is waiting to be clarified.");
-else dv.taskList(tasks, false);
+(async () => {
+const f = (app.vault.getAbstractFileByPath("_core/helpers.js") || app.vault.getAbstractFileByPath(H.path("_core/helpers.js")));
+const H = new Function("dv", "require", "app", await app.vault.read(f))(dv, require, app);
+const days = dv.pages(H.q("Inbox")).where(p => /^\d{4}-\d{2}-\d{2}$/.test(p.file.name)).sort(p => (p.file.day ? p.file.day.ts : 0), "asc").array();
+const rows = [];
+for (const p of days) {
+  const file = app.vault.getAbstractFileByPath(H.path(`Inbox/${p.file.name}.md`));
+  if (!file) continue;
+  const content = await app.vault.read(file);
+  content.split("\n").forEach(line => {
+    let m = line.match(/^\s*- \[( |x)\]\s+(.*)$/);
+    let text = m ? m[2] : null;
+    if (!text) { m = line.match(/^\s*- (?!\[)(.*)$/); if (m) text = m[1]; }
+    if (!text) return;
+    const clean = text.trim().replace(/\s*\*[^*]*\*$/, "").trim();
+    if (clean) rows.push(`- [ ] ${clean} *(${p.file.name})*`);
+  });
+}
+if (!rows.length) dv.paragraph("Inbox clear. Nothing is waiting to be clarified.");
+else dv.paragraph(rows.join("\n"));
+})();
 ```

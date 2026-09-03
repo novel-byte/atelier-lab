@@ -8,7 +8,7 @@ cssclasses: [dashboard-layout, atelier-dashboard-page]
 (async () => {
 const f = (app.vault.getAbstractFileByPath("_core/helpers.js") || app.vault.getAbstractFileByPath(H.path("_core/helpers.js")));
 const H = new Function("dv", "require", "app", await app.vault.read(f))(dv, require, app);
-const { icon, open, sectionHead, empty, relative, taskRow, store, form, createNote, Notice } = H;
+const { icon, open, sectionHead, empty, relative, taskRow, store, form, createNote, captureToInbox, Notice } = H;
 
 const root = dv.container.createDiv({ cls: "adx adx-enter" });
 H.mountNav(root);
@@ -56,10 +56,8 @@ icon(capture, "plus");
 const captureInput = capture.createEl("input", { attr: { placeholder: "Capture to the Lab inbox..." } });
 captureInput.onkeydown = async e => {
   if (e.key !== "Enter" || !captureInput.value.trim()) return;
-  const file = app.vault.getAbstractFileByPath(H.path("Inbox.md"));
-  if (!file) return Notice("Lab inbox is missing.");
-  await app.vault.append(file, `\n- ${captureInput.value.trim()} *${window.moment().format("YYYY-MM-DD HH:mm")}*`);
-  captureInput.value = ""; new Notice("Saved to Lab inbox.");
+  await captureToInbox(captureInput.value, "thought");
+  captureInput.value = "";
 };
 
 const createBtn = command.createDiv({ cls: "adx-command-item adx-create" });

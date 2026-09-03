@@ -5,7 +5,6 @@
 .DS_Store
 /Projects
 /AGENTS.md
-/Inbox.md
 
 # Personal content — ignore notes but keep folder structure
 /Attachments/*
@@ -26,6 +25,8 @@
 !/Courses/.gitkeep
 /Interviews/*
 !/Interviews/.gitkeep
+/Inbox/*
+!/Inbox/.gitkeep
 /People/*
 !/People/.gitkeep
 /Questions/*

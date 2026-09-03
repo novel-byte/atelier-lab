@@ -55,13 +55,26 @@ function labTypesFor(app) {
   ];
 }
 
+// ---------- Lab capture inbox: resolve root + today's daily note ----------
+function labRoot(app) {
+  if (app.vault.getAbstractFileByPath("_core/helpers.js")) return "";
+  if (app.vault.getAbstractFileByPath("Atelier Lab/_core/helpers.js")) return "Atelier Lab";
+  return null; // production vault — no Lab-shaped inbox
+}
+function inboxPath(app) {
+  const root = labRoot(app);
+  const day = window.moment().format("YYYY-MM-DD");
+  if (root === null) return "02 Capture/Inbox.md";
+  return normalizePath(`${root ? `${root}/` : ""}Inbox/${day}.md`);
+}
+
 // ============================================================
 // Modals
 // ============================================================
 class CaptureModal extends Modal {
   onOpen() {
     this.titleEl.setText("Quick capture");
-    new Setting(this.contentEl).setName("Capture").setDesc("Saved to 02 Capture/Inbox.md").addText(text => {
+    new Setting(this.contentEl).setName("Capture").setDesc(`Saved to ${inboxPath(this.app)}`).addText(text => {
       this.input = text; text.setPlaceholder("Thought, task, link, or next action");
     });
     new Setting(this.contentEl).setName("Kind").addDropdown(drop => {
@@ -72,8 +85,15 @@ class CaptureModal extends Modal {
   }
   async save() {
     const value = this.input.getValue().trim(); if (!value) return;
-    const file = this.app.vault.getAbstractFileByPath("02 Capture/Inbox.md");
-    if (!file) return new Notice("Capture inbox is missing.");
+    const root = labRoot(this.app);
+    const day = window.moment().format("YYYY-MM-DD");
+    let path = inboxPath(this.app);
+    let file = this.app.vault.getAbstractFileByPath(path);
+    if (!file) {
+      if (root === null) return new Notice("Capture inbox is missing.");
+      file = await this.app.vault.create(path,
+        `---\ntype: inbox\ndate: ${day}\ntags: [inbox]\n---\n\n# Inbox / ${day}\n`);
+    }
     const prefix = this.kind.getValue() === "task" ? "- [ ] " : "- ";
     await this.app.vault.append(file, `\n${prefix}${value} *${window.moment().format("YYYY-MM-DD HH:mm")}*`);
     new Notice("Saved to Inbox."); this.close();
