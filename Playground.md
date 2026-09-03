@@ -10,7 +10,7 @@ const H = new Function("dv", "require", "app", await app.vault.read((app.vault.g
 const { icon, open, Notice } = H;
 const root = dv.container.createDiv({ cls: "adx adx-enter" });
 H.mountHome(root);
-const labPages = H.labPages().filter(p => p.path !== H.path("Home.md"));
+const labPages = H.labPages().filter(p => p.path !== H.path("Home.md") && !p.path.includes("_templates/"));
 
 const hero = root.createDiv({ cls: "adx-hero" });
 const copy = hero.createDiv({ cls: "adx-hero-copy" });
@@ -40,7 +40,7 @@ links.createDiv({ cls: "adx-label", text: "Open studios" });
 const stats = side.createDiv({ cls: "adx-panel adx-academic-stats" });
 stats.createDiv({ cls: "adx-label", text: "Play signals" });
 [[labPages.length, "lab notes"], [labPages.filter(p => p.file.tasks.where(t => !t.completed).length).length, "notes with tasks"],
- [H.labPages().file.tasks.where(t => !t.completed).length, "open tasks"]]
+ [labPages.file.tasks.where(t => !t.completed).length, "open tasks"]]
   .forEach(([n, l]) => { const s = stats.createDiv(); s.createEl("strong", { text: String(n) }); s.createEl("span", { text: l }); });
 })();
 ```

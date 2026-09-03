@@ -12,7 +12,7 @@ const root = dv.container.createDiv({ cls: "adx adx-enter" });
 H.mountHome(root);
 const questions = dv.pages(H.q("Questions")).where(p => p.type === "research_question").array();
 const sources = dv.pages(H.q("Sources")).array();
-const tasks = H.labPages().file.tasks.array().filter(t => H.isLab(t.path) && !t.completed);
+const tasks = H.labPages().file.tasks.array().filter(t => H.isLab(t.path) && !t.completed && !t.path.includes("_templates/"));
 
 const hero = root.createDiv({ cls: "adx-hero" });
 const copy = hero.createDiv({ cls: "adx-hero-copy" });

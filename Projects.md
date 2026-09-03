@@ -12,7 +12,7 @@ const root = dv.container.createDiv({ cls: "adx adx-enter" });
 H.mountHome(root);
 
 const projects = dv.pages(H.q("Projects")).where(p => p.type === "project").array();
-const tasks = H.labPages().file.tasks.array().filter(t => H.isLab(t.path) && !t.completed)
+const tasks = H.labPages().file.tasks.array().filter(t => H.isLab(t.path) && !t.completed && !t.path.includes("_templates/"))
   .sort((a, b) => (a.due?.ts || 9e15) - (b.due?.ts || 9e15));
 
 const hero = root.createDiv({ cls: "adx-hero" });

@@ -14,7 +14,7 @@ H.mountHome(root);
 const concepts = dv.pages(H.q("Concepts")).where(p => p.type === "concept").array();
 const algorithms = dv.pages(H.q("Algorithms")).array();
 const builds = dv.pages(H.q("Projects")).where(p => p.type === "project").array();
-const tasks = H.labPages().file.tasks.array().filter(t => H.isLab(t.path) && !t.completed);
+const tasks = H.labPages().file.tasks.array().filter(t => H.isLab(t.path) && !t.completed && !t.path.includes("_templates/"));
 
 const hero = root.createDiv({ cls: "adx-hero" });
 const copy = hero.createDiv({ cls: "adx-hero-copy" });

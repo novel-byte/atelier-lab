@@ -16,7 +16,7 @@ const now = new Date();
 const greeting = now.getHours() < 5 ? "Still awake" : now.getHours() < 12 ? "Good morning" : now.getHours() < 18 ? "Good afternoon" : "Good evening";
 
 // Data — sandbox scope only
-const labTasks = H.labPages().file.tasks.array().filter(t => H.isLab(t.path));
+const labTasks = H.labPages().file.tasks.array().filter(t => H.isLab(t.path) && !t.path.includes("_templates/"));
 const openTasks = labTasks.filter(t => !t.completed);
 const doneWeek = labTasks.filter(t => t.completed && t.completion && t.completion >= dv.date("today") - dv.duration("7 days"));
 const projects = dv.pages(H.q("Projects")).where(p => p.type === "project" && H.ACTIVE_PROJECT.includes(p.status)).array();
@@ -117,7 +117,7 @@ projects.slice(0, 4).forEach((p, i) => {
 // Recent (lab only)
 const recent = main.createDiv({ cls: "adx-panel" });
 sectionHead(recent, "Recently touched in the Lab");
-H.labPages().sort(p => p.file.mtime.toMillis(), "desc").limit(6).forEach(p => {
+H.labPages().filter(p => !p.path.includes("_templates/")).sort(p => p.file.mtime.toMillis(), "desc").limit(6).forEach(p => {
   const row = recent.createDiv({ cls: "adx-note-row" }); icon(row, "file-text");
   const body = row.createDiv({ cls: "adx-note-body" });
   body.createDiv({ cls: "adx-note-title", text: p.file.name });
@@ -179,7 +179,7 @@ H.STATUS.job.filter(([v]) => !["rejected", "withdrawn", "archived"].includes(v))
 const activity = side.createDiv({ cls: "adx-panel" });
 sectionHead(activity, "12-week activity");
 const counts = {};
-H.labPages().forEach(p => { if (p.file.mtime) { const key = p.file.mtime.toFormat("yyyy-MM-dd"); counts[key] = (counts[key] || 0) + 1; } });
+H.labPages().filter(p => !p.path.includes("_templates/")).forEach(p => { if (p.file.mtime) { const key = p.file.mtime.toFormat("yyyy-MM-dd"); counts[key] = (counts[key] || 0) + 1; } });
 const heat = activity.createDiv({ cls: "adx-heat" });
 const cursor = window.moment().startOf("day").subtract(83, "days").startOf("week");
 let totalEdits = 0;

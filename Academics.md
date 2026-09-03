@@ -14,7 +14,7 @@ H.mountHome(root);
 const courses = dv.pages(H.q("Courses")).where(p => p.type === "course").array();
 const assignments = dv.pages(H.q("Assignments")).array();
 const concepts = dv.pages(H.q("Concepts")).where(p => p.type === "concept").array();
-const tasks = H.labPages().file.tasks.array().filter(t => H.isLab(t.path) && !t.completed)
+const tasks = H.labPages().file.tasks.array().filter(t => H.isLab(t.path) && !t.completed && !t.path.includes("_templates/"))
   .sort((a, b) => (a.due?.ts || 9e15) - (b.due?.ts || 9e15));
 
 const hero = root.createDiv({ cls: "adx-hero" });

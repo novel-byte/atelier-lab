@@ -11,7 +11,7 @@ const { icon, open, empty, taskRow, tabBar } = H;
 const root = dv.container.createDiv({ cls: "adx adx-enter" });
 H.mountHome(root);
 const areas = dv.pages(H.q("Areas")).array();
-const tasks = H.labPages().file.tasks.array().filter(t => H.isLab(t.path) && !t.completed);
+const tasks = H.labPages().file.tasks.array().filter(t => H.isLab(t.path) && !t.completed && !t.path.includes("_templates/"));
 
 const hero = root.createDiv({ cls: "adx-hero" });
 const copy = hero.createDiv({ cls: "adx-hero-copy" });
