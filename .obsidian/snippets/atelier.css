@@ -175,6 +175,7 @@ body.atelier-lab-active .markdown-preview-view {
   min-height: 320px;
   align-items: center;
   padding: 42px;
+  margin-bottom: 28px;
   border: 1px solid rgba(255,255,255,.09);
   border-radius: 28px;
   background: linear-gradient(135deg, rgba(255,255,255,.055), rgba(255,255,255,.018));
@@ -198,7 +199,7 @@ body.atelier-lab-active .markdown-preview-view {
 .adx-orbit { width: 190px; height: 190px; background: rgba(0,0,0,.16); backdrop-filter: blur(12px); }
 .adx-command { padding: 22px 0; }
 .adx-command-item { min-height: 58px; border-radius: 18px; background: rgba(255,255,255,.035); padding-inline: 19px; }
-.adx-nav { gap: 11px; padding: 0 0 24px; }
+.adx-nav { gap: 11px; padding: 0 0 28px; }
 .adx-nav-item { padding: 11px 15px; border: 1px solid rgba(255,255,255,.08); border-radius: 16px; background: rgba(255,255,255,.025); }
 .adx-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 24px; }
 .adx-main { grid-column: span 8; }
