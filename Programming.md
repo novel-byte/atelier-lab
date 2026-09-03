@@ -10,11 +10,12 @@ const H = new Function("dv", "require", "app", await app.vault.read((app.vault.g
 const { icon, open, sectionHead, empty, tabBar, taskRow, createNote, patchFrontmatter, Notice } = H;
 const root = dv.container.createDiv({ cls: "adx adx-enter" });
 H.mountHome(root);
+H.mountNav(root);
 
 const concepts = dv.pages(H.q("Concepts")).where(p => p.type === "concept").array();
 const algorithms = dv.pages(H.q("Algorithms")).array();
 const builds = dv.pages(H.q("Projects")).where(p => p.type === "project").array();
-const tasks = H.labPages().file.tasks.array().filter(t => H.isLab(t.path) && !t.completed);
+const tasks = H.labPages().file.tasks.array().filter(t => H.isLab(t.path) && !t.completed && !t.path.includes("_templates/"));
 
 const hero = root.createDiv({ cls: "adx-hero" });
 const copy = hero.createDiv({ cls: "adx-hero-copy" });

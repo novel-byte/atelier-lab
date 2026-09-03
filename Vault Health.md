@@ -10,6 +10,7 @@ const H = new Function("dv", "require", "app", await app.vault.read((app.vault.g
 const { icon, open, empty } = H;
 const root = dv.container.createDiv({ cls: "adx adx-enter" });
 H.mountHome(root);
+H.mountNav(root);
 
 const lab = H.labPages().filter(p => !p.file.path.startsWith(H.path("_")));
 const missingType = lab.filter(p => !p.type && !p.file.path.includes("Inbox"));

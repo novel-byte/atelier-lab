@@ -11,6 +11,7 @@ const H = new Function("dv", "require", "app", await app.vault.read((app.vault.g
 const { icon, open, sectionHead, empty, tabBar } = H;
 const root = dv.container.createDiv({ cls: "adx adx-library adx-enter" });
 H.mountHome(root);
+H.mountNav(root);
 const books = () => dv.pages(H.q("Books")).where(p => p.type === "book").array();
 const iconOf = (p, n) => { const e = p.createDiv({ cls: "adx-icon" }); try { setIcon(e, n); } catch (_) {} return e; };
 

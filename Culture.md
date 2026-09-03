@@ -10,6 +10,7 @@ const H = new Function("dv", "require", "app", await app.vault.read((app.vault.g
 const { icon, open, empty } = H;
 const root = dv.container.createDiv({ cls: "adx adx-enter" });
 H.mountHome(root);
+H.mountNav(root);
 const works = dv.pages(H.q("Works")).where(p => p.type === "work").array();
 
 const hero = root.createDiv({ cls: "adx-hero" });

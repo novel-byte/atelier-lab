@@ -10,9 +10,10 @@ const H = new Function("dv", "require", "app", await app.vault.read((app.vault.g
 const { icon, open, empty, tabBar, taskRow, STATUS } = H;
 const root = dv.container.createDiv({ cls: "adx adx-enter" });
 H.mountHome(root);
+H.mountNav(root);
 const apps = dv.pages(H.q("Applications")).where(p => p.type === "job_application").array();
 const interviews = dv.pages(H.q("Interviews")).array();
-const tasks = H.labPages().file.tasks.array().filter(t => H.isLab(t.path) && !t.completed);
+const tasks = H.labPages().file.tasks.array().filter(t => H.isLab(t.path) && !t.completed && !t.path.includes("_templates/"));
 const closedStages = ["rejected", "withdrawn", "archived"];
 const active = apps.filter(a => !closedStages.includes(a.status));
 
