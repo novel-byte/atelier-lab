@@ -66,7 +66,7 @@ const createBtn = command.createDiv({ cls: "adx-command-item adx-create" });
 icon(createBtn, "plus-circle"); createBtn.createEl("span", { text: "Create" });
 createBtn.onclick = () => {
   const options = [
-qq    ["Person", "People", "Person.md"], ["Life area", "Areas", "Life Area.md"], ["Cultural work", "Works", "Work.md"],
+    ["Person", "People", "Person.md"], ["Life area", "Areas", "Life Area.md"], ["Cultural work", "Works", "Work.md"],
   ];
   (async () => {
     const res = await form({ title: "Create in the Lab", submitText: "Next", fields: [
@@ -116,7 +116,7 @@ projects.slice(0, 4).forEach((p, i) => {
 // Recent (lab only)
 const recent = main.createDiv({ cls: "adx-panel" });
 sectionHead(recent, "Recently touched in the Lab");
-H.labPages().filter(p => !p.path.includes("_templates/")).sort(p => p.file.mtime.toMillis(), "desc").limit(6).forEach(p => {
+H.labPages().filter(p => p.path && !p.path.includes("_templates/")).sort(p => p.file.mtime.toMillis(), "desc").limit(6).forEach(p => {
   const row = recent.createDiv({ cls: "adx-note-row" }); icon(row, "file-text");
   const body = row.createDiv({ cls: "adx-note-body" });
   body.createDiv({ cls: "adx-note-title", text: p.file.name });
@@ -178,7 +178,7 @@ H.STATUS.job.filter(([v]) => !["rejected", "withdrawn", "archived"].includes(v))
 const activity = side.createDiv({ cls: "adx-panel" });
 sectionHead(activity, "12-week activity");
 const counts = {};
-H.labPages().filter(p => !p.path.includes("_templates/")).forEach(p => { if (p.file.mtime) { const key = p.file.mtime.toFormat("yyyy-MM-dd"); counts[key] = (counts[key] || 0) + 1; } });
+H.labPages().filter(p => p.path && !p.path.includes("_templates/")).forEach(p => { if (p.file.mtime) { const key = p.file.mtime.toFormat("yyyy-MM-dd"); counts[key] = (counts[key] || 0) + 1; } });
 const heat = activity.createDiv({ cls: "adx-heat" });
 const cursor = window.moment().startOf("day").subtract(83, "days").startOf("week");
 let totalEdits = 0;
