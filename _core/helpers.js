@@ -287,6 +287,7 @@ return (function build({ dv, require, app }) {
   ];
   function mountNav(rootEl) {
     if (rootEl.querySelector(".sbx-nav")) return;
+    rootEl.classList.add("has-nav");
     const rail = rootEl.createDiv({ cls: "sbx-nav", attr: { "aria-label": "Domain navigation" } });
     const activeName = (app.workspace.getActiveFile && app.workspace.getActiveFile()?.name) || "";
     NAV.forEach(([iconName, label, filename]) => {
@@ -297,6 +298,11 @@ return (function build({ dv, require, app }) {
       icon(item, iconName);
       item.onclick = () => open(path(filename));
     });
+    const active = NAV.find(([,, filename]) => filename === activeName);
+    if (active) {
+      const tab = rail.createDiv({ cls: "sbx-nav-tab", attr: { title: "Navigation", "aria-label": "Navigation" } });
+      icon(tab, active[0]);
+    }
     return rail;
   }
 

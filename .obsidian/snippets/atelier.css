@@ -246,14 +246,27 @@ body.atelier-lab-active .markdown-preview-view {
 .sbx-home-fab:hover { color: #17120f; background: var(--atelier-copper); transform: translateY(-2px); }
 
 /* Atelier Lab cross-domain navigation rail */
+.adx.has-nav { padding-left: 96px; }
 .sbx-nav { position: fixed; top: 16px; left: 16px; z-index: 998; display: flex; flex-direction: column; gap: 6px; padding: 8px; border: 1px solid rgba(255,255,255,.12); border-radius: 18px; background: rgba(12,15,20,.72); backdrop-filter: blur(12px); }
 .sbx-nav-item { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 12px; color: var(--atelier-muted); cursor: pointer; transition: color .2s, background .2s, transform .15s; }
 .sbx-nav-item .adx-icon { width: 20px; height: 20px; }
 .sbx-nav-item:hover { color: var(--atelier-ink); background: rgba(255,255,255,.06); transform: translateY(-1px); }
 .sbx-nav-item.is-active { color: #17120f !important; background: var(--atelier-copper); }
+.sbx-nav-tab { display: none; width: 40px; height: 40px; align-items: center; justify-content: center; border-radius: 12px; color: var(--atelier-copper); }
+.sbx-nav-tab .adx-icon { width: 20px; height: 20px; }
+@media (max-width: 1100px) and (min-width: 621px) {
+  .adx.has-nav { padding-left: 64px; }
+  .sbx-nav { left: 8px; padding: 6px; }
+  .sbx-nav-item { display: none; }
+  .sbx-nav-tab { display: flex; }
+  .sbx-nav:hover .sbx-nav-tab { display: none; }
+  .sbx-nav:hover .sbx-nav-item { display: flex; }
+}
 @media (max-width: 620px) {
-  .sbx-nav { top: auto; bottom: 16px; left: 50%; transform: translateX(-50%); flex-direction: row; border-radius: 18px; }
-  .sbx-nav-item { width: 34px; height: 34px; border-radius: 10px; }
+  .adx.has-nav { padding-left: 44px; }
+  .sbx-nav { top: auto; bottom: 16px; left: 50%; transform: translateX(-50%); flex-direction: row; border-radius: 18px; padding: 8px; }
+  .sbx-nav-tab { display: none; }
+  .sbx-nav-item { display: flex; width: 34px; height: 34px; border-radius: 10px; }
   .sbx-nav-item .adx-icon { width: 17px; height: 17px; }
 }
 .adx-create-overlay { position: fixed; inset: 0; z-index: 9999; display: grid; place-items: center; background: rgba(3,5,9,.72); backdrop-filter: blur(14px); animation: adx-enter .2s ease both; }
