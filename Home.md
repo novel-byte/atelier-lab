@@ -8,7 +8,7 @@ cssclasses: [dashboard-layout, atelier-dashboard-page]
 (async () => {
 const f = (app.vault.getAbstractFileByPath("_core/helpers.js") || app.vault.getAbstractFileByPath(H.path("_core/helpers.js")));
 const H = new Function("dv", "require", "app", await app.vault.read(f))(dv, require, app);
-const { icon, open, sectionHead, empty, relative, taskRow, store, form, createNote, captureToInbox, Notice } = H;
+const { icon, open, sectionHead, empty, relative, taskRow, store, captureToInbox, Notice } = H;
 
 const root = dv.container.createDiv({ cls: "adx adx-enter" });
 H.mountNav(root);
@@ -62,19 +62,7 @@ captureInput.onkeydown = async e => {
 
 const createBtn = command.createDiv({ cls: "adx-command-item adx-create" });
 icon(createBtn, "plus-circle"); createBtn.createEl("span", { text: "Create" });
-createBtn.onclick = () => {
-  const options = [
-    ["Person", "People", "Person.md"], ["Life area", "Areas", "Life Area.md"], ["Cultural work", "Works", "Work.md"],
-  ];
-  (async () => {
-    const res = await form({ title: "Create in the Lab", submitText: "Next", fields: [
-      { key: "kind", label: "Type", type: "select", options: options.map(([label], j) => [String(j), label]), value: "0" }
-    ] });
-    if (!res) return;
-    const [, folder, template] = options[Number(res.kind)];
-    await createNote({ kind: folder.slice(0, -1), folder, template });
-  })();
-};
+createBtn.onclick = () => app.commands.executeCommandById("atelier-tools:new-note");
 
 // Navigation — Lab-internal
 const nav = root.createDiv({ cls: "adx-nav" });
