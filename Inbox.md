@@ -4,10 +4,6 @@ tags: [sandbox]
 cssclasses: [dashboard-layout, atelier-dashboard-page]
 ---
 
-# Inbox
-
-Captures land in daily notes under `Inbox/YYYY-MM-DD.md`. Pick a day to view its capture log.
-
 ```dataviewjs
 (async () => {
 const f = (app.vault.getAbstractFileByPath("_core/helpers.js") || app.vault.getAbstractFileByPath(H.path("_core/helpers.js")));
