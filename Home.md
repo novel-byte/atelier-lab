@@ -182,10 +182,26 @@ sectionHead(inboxPanel, "Inbox", "Open inbox", () => open(H.path("Inbox.md")));
 // Shelf
 const shelf = side.createDiv({ cls: "adx-panel" });
 sectionHead(shelf, "Currently reading", "Open library", () => open(H.path("Library.md")));
+const resolveCover = (cover, app) => {
+  try {
+    if (!cover) return null;
+    if (typeof cover === "object") cover = cover.path || cover.display;
+    if (!cover) return null;
+    let name = cover;
+    const m = cover.match(/^\[\[(.+?)\]\]$/);
+    if (m) name = m[1];
+    const base = name.replace(/\.[a-z0-9]+$/i, "").toLowerCase();
+    const file = (app.metadataCache.getFirstLinkpathDest(name, "") || app.metadataCache.getLinkpath?.(name))
+      || app.vault.getFiles().find(f => f.path.toLowerCase().endsWith(name.toLowerCase()) || f.basename.toLowerCase() === base);
+    return file ? app.vault.adapter.getResourcePath(file.path) : cover;
+  } catch (_) { return cover; }
+};
 if (!books.length) empty(shelf, "The Lab shelf is waiting.");
 books.slice(0, 3).forEach(b => {
   const row = shelf.createDiv({ cls: "adx-book-row" });
-  row.createDiv({ cls: "adx-cover-placeholder" }); icon(row.querySelector(".adx-cover-placeholder"), "book-open");
+  const coverSrc = resolveCover(b.cover, app);
+  if (coverSrc) row.createEl("img", { attr: { src: coverSrc, alt: "" } });
+  else { row.createDiv({ cls: "adx-cover-placeholder" }); icon(row.querySelector(".adx-cover-placeholder"), "book-open"); }
   const body = row.createDiv({ cls: "adx-book-body" });
   body.createDiv({ cls: "adx-book-title", text: b.title || b.file.name });
   body.createDiv({ cls: "adx-book-author", text: Array.isArray(b.authors) ? b.authors.join(", ") : b.author || "" });

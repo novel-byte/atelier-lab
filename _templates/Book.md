@@ -27,8 +27,6 @@ date_added: <% tp.date.now("YYYY-MM-DD") %>
 
 ## Book details
 
-![cover|240]()
-
 ## Why this book
 
 ## Reading progress

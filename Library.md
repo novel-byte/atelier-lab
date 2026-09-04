@@ -14,6 +14,20 @@ H.mountHome(root);
 H.mountNav(root);
 const books = () => dv.pages(H.q("Books")).where(p => p.type === "book").array();
 const iconOf = (p, n) => { const e = p.createDiv({ cls: "adx-icon" }); try { setIcon(e, n); } catch (_) {} return e; };
+const resolveCover = (cover, app) => {
+  try {
+    if (!cover) return null;
+    if (typeof cover === "object") cover = cover.path || cover.display;
+    if (!cover) return null;
+    let name = cover;
+    const m = cover.match(/^\[\[(.+?)\]\]$/);
+    if (m) name = m[1];
+    const base = name.replace(/\.[a-z0-9]+$/i, "").toLowerCase();
+    const file = (app.metadataCache.getFirstLinkpathDest(name, "") || app.metadataCache.getLinkpath?.(name))
+      || app.vault.getFiles().find(f => f.path.toLowerCase().endsWith(name.toLowerCase()) || f.basename.toLowerCase() === base);
+    return file ? app.vault.adapter.getResourcePath(file.path) : cover;
+  } catch (_) { return cover; }
+};
 
 const head = root.createDiv({ cls: "adx-hero adx-library-hero" });
 const copy = head.createDiv({ cls: "adx-hero-copy" });
@@ -82,7 +96,8 @@ const renderShelf = () => {
   if (!list.length) return empty(shelfGrid, "This shelf is empty.");
   list.forEach(book => {
     const card = shelfGrid.createDiv({ cls: "adx-book-card" });
-    if (book.cover) card.createEl("img", { attr: { src: book.cover, alt: "" } });
+    const coverSrc = resolveCover(book.cover, app);
+    if (coverSrc) card.createEl("img", { attr: { src: coverSrc, alt: "" } });
     else iconOf(card.createDiv({ cls: "adx-cover-placeholder" }), "book-open");
     const info = card.createDiv({ cls: "adx-book-card-info" });
     info.createDiv({ cls: "adx-book-title", text: book.title || book.file.name });
