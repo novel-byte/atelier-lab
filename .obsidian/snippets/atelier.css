@@ -257,25 +257,28 @@ body.atelier-lab-active .markdown-preview-view {
 .sbx-nav-tab { display: none; width: 40px; height: 40px; align-items: center; justify-content: center; border-radius: 12px; color: var(--atelier-copper); }
 .sbx-nav-tab .adx-icon { width: 20px; height: 20px; }
 @media (max-width: 1100px) and (min-width: 621px) {
-  .adx.has-nav { padding-left: 64px; }
-  .sbx-nav { left: 8px; padding: 6px; }
-  .sbx-nav-item { display: none; }
-  .sbx-nav-tab { display: flex; }
-  .sbx-nav.is-open .sbx-nav-item { display: flex; }
-}
-/* Mobile — collapse to a single tappable tab; tap toggles open/closed (Obsidian mobile + narrow widths) */
-body.is-mobile .adx.has-nav { padding-left: 64px; }
-body.is-mobile .sbx-nav { top: 16px; left: 16px; bottom: auto; transform: none; flex-direction: column; border-radius: 18px; padding: 8px; }
-body.is-mobile .sbx-nav-item { display: none; }
-body.is-mobile .sbx-nav-tab { display: flex; }
-body.is-mobile .sbx-nav.is-open .sbx-nav-item { display: flex; width: 40px; height: 40px; border-radius: 12px; }
-body.is-mobile .sbx-nav-item .adx-icon { width: 20px; height: 20px; }
-@media (max-width: 620px) {
-  .adx.has-nav { padding-left: 64px; }
-  .sbx-nav { top: 16px; left: 16px; bottom: auto; transform: none; flex-direction: column; border-radius: 18px; padding: 8px; }
+  .adx.has-nav { padding-left: 72px; }
+  .sbx-nav { position: fixed; top: 50%; left: 12px; bottom: auto; transform: translateY(-50%); flex-direction: column; padding: 6px; max-height: 80vh; overflow-y: auto; }
   .sbx-nav-item { display: none; }
   .sbx-nav-tab { display: flex; }
   .sbx-nav.is-open .sbx-nav-item { display: flex; width: 40px; height: 40px; border-radius: 12px; }
+  .sbx-nav.is-open .sbx-nav-tab { order: 6; }
+}
+/* Mobile — collapse to a single tappable tab; tap toggles open/closed (Obsidian mobile + narrow widths) */
+body.is-mobile .adx.has-nav { padding-left: 72px; }
+body.is-mobile .sbx-nav { position: fixed; top: 50%; left: 12px; bottom: auto; transform: translateY(-50%); flex-direction: column; border-radius: 18px; padding: 8px; max-height: 80vh; overflow-y: auto; }
+body.is-mobile .sbx-nav-item { display: none; }
+body.is-mobile .sbx-nav-tab { display: flex; }
+body.is-mobile .sbx-nav.is-open .sbx-nav-item { display: flex; width: 40px; height: 40px; border-radius: 12px; }
+body.is-mobile .sbx-nav.is-open .sbx-nav-tab { order: 6; }
+body.is-mobile .sbx-nav-item .adx-icon { width: 20px; height: 20px; }
+@media (max-width: 620px) {
+  .adx.has-nav { padding-left: 72px; }
+  .sbx-nav { position: fixed; top: 50%; left: 12px; bottom: auto; transform: translateY(-50%); flex-direction: column; border-radius: 18px; padding: 8px; max-height: 80vh; overflow-y: auto; }
+  .sbx-nav-item { display: none; }
+  .sbx-nav-tab { display: flex; }
+  .sbx-nav.is-open .sbx-nav-item { display: flex; width: 40px; height: 40px; border-radius: 12px; }
+  .sbx-nav.is-open .sbx-nav-tab { order: 6; }
   .sbx-nav-item .adx-icon { width: 20px; height: 20px; }
 }
 /* Atelier Lab Inbox dashboard */
