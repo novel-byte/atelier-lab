@@ -295,6 +295,7 @@ return (function build({ dv, require, app }) {
   // ---------- cross-domain navigation rail ----------
   const NAV = [
     ["home", "Home", "Home.md"],
+    ["inbox", "Inbox", "Inbox.md"],
     ["book-open", "Academics", "Academics.md"],
     ["code-2", "Programming", "Programming.md"],
     ["rocket", "Projects", "Projects.md"],

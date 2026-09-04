@@ -145,6 +145,40 @@ start.onclick = () => {
   interval = setInterval(() => { total--; store.set("timer-total", total); renderTime(); if (total <= 0) { clearInterval(interval); interval = null; start.textContent = "Start"; time.classList.remove("is-running"); H.logFocusSession({ minutes: 25 }); } }, 1000);
 };
 
+// Inbox preview — latest captures from daily inbox notes
+const inboxPanel = side.createDiv({ cls: "adx-panel" });
+sectionHead(inboxPanel, "Inbox", "Open inbox", () => open(H.path("Inbox.md")));
+(async () => {
+  const days = dv.pages(H.q("Inbox"))
+    .where(p => /^\d{4}-\d{2}-\d{2}$/.test(p.file.name))
+    .sort(p => (p.file.day ? p.file.day.ts : 0), "desc")
+    .array();
+  const items = [];
+  for (const p of days.slice(0, 3)) {
+    const file = app.vault.getAbstractFileByPath(H.path(`Inbox/${p.file.name}.md`));
+    if (!file) continue;
+    const content = await app.vault.read(file);
+    content.split("\n").forEach(line => {
+      let m = line.match(/^\s*- \[( |x)\]\s+(.*)$/);
+      let body = null, done = false;
+      if (m) { body = m[2]; done = m[1] === "x"; }
+      else { m = line.match(/^\s*- (?!\[)(.*)$/); if (m) body = m[1]; }
+      if (!body) return;
+      const clean = body.trim().replace(/\s*\*[^*]*\*$/, "").trim();
+      if (clean) items.push({ text: clean, day: p.file.name, done });
+    });
+  }
+  if (!items.length) { empty(inboxPanel, "Inbox is clear."); return; }
+  items.slice(0, 5).forEach(it => {
+    const row = inboxPanel.createDiv({ cls: "adx-note-row" });
+    icon(row, it.done ? "check-circle" : "inbox");
+    const body = row.createDiv({ cls: "adx-note-body" });
+    body.createDiv({ cls: "adx-note-title", text: it.text });
+    body.createDiv({ cls: "adx-note-path", text: it.day });
+    row.onclick = () => open(H.path("Inbox.md"));
+  });
+})();
+
 // Shelf
 const shelf = side.createDiv({ cls: "adx-panel" });
 sectionHead(shelf, "Currently reading", "Open library", () => open(H.path("Library.md")));
