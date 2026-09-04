@@ -319,6 +319,9 @@ return (function build({ dv, require, app }) {
       icon(item, iconName);
       item.onclick = () => open(path(filename));
     });
+    const createBtn = rail.createDiv({ cls: "sbx-nav-item sbx-nav-create", attr: { title: "Create note", "aria-label": "Create note" } });
+    icon(createBtn, "plus-circle");
+    createBtn.onclick = () => app.commands.executeCommandById("atelier-tools:new-note");
     const active = NAV.find(([,, filename]) => filename === activeName);
     if (active) {
       const tab = rail.createDiv({ cls: "sbx-nav-tab", attr: { title: "Navigation", "aria-label": "Navigation" } });

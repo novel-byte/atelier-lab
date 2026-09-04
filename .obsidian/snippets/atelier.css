@@ -253,6 +253,7 @@ body.atelier-lab-active .markdown-preview-view {
 .sbx-nav-item .adx-icon { width: 20px; height: 20px; }
 .sbx-nav-item:hover { color: var(--atelier-ink); background: rgba(255,255,255,.06); transform: translateY(-1px); }
 .sbx-nav-item.is-active { color: #17120f !important; background: var(--atelier-copper); }
+.sbx-nav-create { margin-top: 4px; border-top: 1px solid rgba(255,255,255,.08); padding-top: 10px; }
 .sbx-nav-tab { display: none; width: 40px; height: 40px; align-items: center; justify-content: center; border-radius: 12px; color: var(--atelier-copper); }
 .sbx-nav-tab .adx-icon { width: 20px; height: 20px; }
 @media (max-width: 1100px) and (min-width: 621px) {
