@@ -323,7 +323,9 @@ return (function build({ dv, require, app }) {
     if (active) {
       const tab = rail.createDiv({ cls: "sbx-nav-tab", attr: { title: "Navigation", "aria-label": "Navigation" } });
       icon(tab, active[0]);
+      tab.onclick = e => { e.stopPropagation(); rail.classList.toggle("is-open"); };
     }
+    rail.onclick = () => { if (rail.classList.contains("is-open")) rail.classList.remove("is-open"); };
     return rail;
   }
 
